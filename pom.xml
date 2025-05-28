@@ -11,4 +11,14 @@
         <maven.compiler.target>20</maven.compiler.target>
         <exec.mainClass>com.mycompany.serveup.ServeUp</exec.mainClass>
     </properties>
+    <dependencies>
+       <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.5</version>
+        </dependency>
+    </dependencies>
+
 </project>
+
