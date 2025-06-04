@@ -35,13 +35,13 @@ public class ServeUp {
        }catch(Exception e){
            System.out.println("Falha da conexao");
        }
-       
-       
+      
        
        String sql1 = "CREATE TABLE aluno("
             + "id int primary key not null,"
             + "nome text,"
             + "email text)";
+        
         try{
             Class.forName(driver);
             conn = DriverManager.getConnection(url,user,senha);
@@ -73,12 +73,22 @@ public class ServeUp {
        
         String sql3 = "SELECT * FROM aluno";
         ResultSet rs = null;
+        
         try{
+            
             Class.forName (driver);
             conn = DriverManager.getConnection(url,user,senha);
             System.out.println("Mostrando os Dados na tabela alunos: ...");
             st = conn.createStatement();
-            st.executeUpdate(sql2);
+            rs = st.executeQuery(sql3);
+            
+            while(rs.next()){
+                System.out.println("ID = " + rs.getInt(1));
+                System.out.println("Nome = " + rs.getString(2));
+                System.out.println("Email = " + rs.getString(3));
+            }
+            
+            
         }catch(Exception ex){
             System.out.println(ex);
         }
