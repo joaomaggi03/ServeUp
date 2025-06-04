@@ -37,7 +37,7 @@ public class ServeUp {
        }
       
        
-       String sql1 = "CREATE TABLE aluno("
+       String sql1 = "CREATE TABLE aluno(" 
             + "id int primary key not null,"
             + "nome text,"
             + "email text)";
@@ -70,6 +70,7 @@ public class ServeUp {
         }catch(Exception ex){
             System.out.println(ex);
         }    
+        
        
         String sql3 = "SELECT * FROM aluno";
         ResultSet rs = null;
@@ -88,13 +89,28 @@ public class ServeUp {
                 System.out.println("Email = " + rs.getString(3));
             }
             
-            
+
         }catch(Exception ex){
             System.out.println(ex);
         }
         
+        String sql4 = "DELETE FROM aluno WHERE id = 2";
         
-        
+         try{
+            
+            Class.forName (driver);
+            conn = DriverManager.getConnection(url,user,senha);
+            System.out.println("Deletando : ...");
+            st = conn.createStatement();
+            st.executeUpdate(sql4);
+            System.out.print("Pessoa Excluida com Sucesso");
+            rs.close();
+            conn.close();
+            
+            
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
     }
         
 }
