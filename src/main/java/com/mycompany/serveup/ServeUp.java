@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 public class ServeUp {
     
     static Connection conn = null;
-    static String url = "jdbc:postgresql://localhost:5432/aula1";
+    static String url = "jdbc:postgresql://localhost:5432/aluno1";
     static String user = "postgres";
     static String senha = "utfpr";
     static String driver = "org.postgresql.Driver";
@@ -94,7 +94,7 @@ public class ServeUp {
             System.out.println(ex);
         }
         
-        String sql4 = "DELETE FROM aluno WHERE id = 2";
+      /*  String sql4 = "DELETE FROM aluno WHERE id = 2";
         
          try{
             
@@ -107,6 +107,24 @@ public class ServeUp {
             rs.close();
             conn.close();
             
+            
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+       */ 
+      
+        String sql5 = "UPDATE aluno set id = 1 WHERE id = 2 ";
+        
+        // Alteração de dados de um registro 
+        try{
+            
+            Class.forName (driver);
+            conn = DriverManager.getConnection(url,user,senha);
+            System.out.println("Alterando os Dados na tabela alunos: ...");
+            st = conn.createStatement();
+            st.executeUpdate(sql5);
+            st.close();
+            conn.close();
             
         }catch(Exception ex){
             System.out.println(ex);
