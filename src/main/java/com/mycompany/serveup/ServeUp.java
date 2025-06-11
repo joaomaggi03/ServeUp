@@ -7,18 +7,33 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import view.ClienteGUI;
 
 public class ServeUp {
     
+
+    
+    public static void main(String[] args) {
+        
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ClienteGUI().setVisible(true);
+            }
+        });
+    } 
+}  
+        
+        
+    /* 
+
     static Connection conn = null;
     static String url = "jdbc:postgresql://localhost:5432/aluno1";
     static String user = "postgres";
     static String senha = "utfpr";
     static String driver = "org.postgresql.Driver";
     static Statement st = null;
-    
-    public static void main(String[] args) {
-        
+
        try{ //bloco para registro do driver
            System.out.println("Carregando o Driver");
            Class.forName(driver);
@@ -111,7 +126,7 @@ public class ServeUp {
         }catch(Exception ex){
             System.out.println(ex);
         }
-       */ 
+        
       
         String sql5 = "UPDATE aluno set id = 1 WHERE id = 2 ";
         
@@ -130,6 +145,6 @@ public class ServeUp {
             System.out.println(ex);
         }
     }
-        
-}
+       */ 
+
 

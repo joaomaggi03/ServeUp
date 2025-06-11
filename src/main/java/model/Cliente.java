@@ -14,11 +14,6 @@ public class Cliente {
     private String nome;
     private String Email; 
     
-    public Cliente(int cpf, String nome, String Email) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.Email = Email;
-    }
 
     public int getCpf() {
         return cpf;
