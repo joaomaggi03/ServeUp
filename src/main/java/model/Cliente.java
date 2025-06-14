@@ -9,13 +9,23 @@ package model;
  * @author Aluno
  */
 public class Cliente {
-    
-    private int cpf;
+
+   
+    private String cpf;
     private String nome;
     private String Email; 
     
-
-    public int getCpf() {
+    public Cliente() {
+    }
+    
+    public Cliente(String cpf, String nome, String Email) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.Email = Email;
+    }
+    
+    
+    public String getCpf() {
         return cpf;
     }
 
@@ -27,7 +37,7 @@ public class Cliente {
         return Email;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
