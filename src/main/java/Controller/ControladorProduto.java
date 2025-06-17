@@ -96,9 +96,9 @@ public class ControladorProduto {
                     String nome = rs.getString("nome");
                     BigDecimal preco = rs.getBigDecimal("preco");
                     String descricao = rs.getString("descricao");
-                    
+                    int codigo_produto = rs.getInt("codigo");
                     // Retorna o objeto Produto preenchido
-                    return new Produto(id, nome, preco, descricao);
+                    return new Produto(id, nome, preco, descricao, codigo_produto);
                 }
             }
         } catch (SQLException e) {
@@ -114,7 +114,7 @@ public class ControladorProduto {
      * @return Uma lista contendo todos os produtos.
      */
     public List<Produto> listarTodos() {
-        String sql = "SELECT id, nome, preco, descricao FROM produto ORDER BY nome";
+         String sql = "SELECT id, codigo_produto, nome, preco, descricao FROM produto ORDER BY nome";
         List<Produto> produtos = new ArrayList<>();
 
         try (Connection conn = FabricaDeConexoes.getConexao();
@@ -122,12 +122,14 @@ public class ControladorProduto {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String nome = rs.getString("nome");
-                BigDecimal preco = rs.getBigDecimal("preco");
-                String descricao = rs.getString("descricao");
+                Produto p = new Produto();
+                p.setId(rs.getInt("id"));
+                p.setCodigoProduto(rs.getInt("codigo_produto"));
+                p.setNome(rs.getString("nome"));
+                p.setPreco(rs.getBigDecimal("preco"));
+                p.setDescricao(rs.getString("descricao"));
 
-                produtos.add(new Produto(id, nome, preco, descricao));
+                produtos.add(p);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao listar produtos: " + e.getMessage(), e);
