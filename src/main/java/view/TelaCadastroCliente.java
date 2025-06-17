@@ -181,27 +181,42 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     
     
-    public void cadastraClientes(){
+
+    public void cadastraClientes() {
         
         String cpf = textClienteCpf.getText();
-        String nome = textClienteNome.getText();   
-        String email = textClienteEmail.getText();  
-        
-        // 2. Validação simples para não salvar dados em branco
-        if (cpf.trim().isEmpty() || nome.trim().isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "CPF e Nome são obrigatórios!", "Erro de Validação", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return; // Para a execução aqui se os campos estiverem vazios
+        String nome = textClienteNome.getText();
+        String email = textClienteEmail.getText();
+
+        // Validação CPF, Chama a função
+        if (!isValidCPF(cpf)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "O CPF digitado é inválido!", "Erro de Validação", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return; // Interrompe a execução se o CPF for inválido.
         }
 
-        // 3. Cria o objeto Cliente
+        // Validação para o nome
+        if (nome.trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "O campo Nome é obrigatório!", "Erro de Validação", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Validação Email
+        if (!email.trim().isEmpty() && !isValidEmail(email)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "O formato do e-mail digitado é inválido!", "Erro de Validação", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return; // Interrompe a execução
+        }
+        
+        String cpfApenasNumeros = cpf.replaceAll("[^0-9]", "");
+
+        
+        // Cria o objeto Cliente
         Cliente cliente = new Cliente();
-        cliente.setCpf(cpf);
+        cliente.setCpf(cpfApenasNumeros); // Salva o CPF limpo
         cliente.setNome(nome);
         cliente.setEmail(email);
 
-        // 4. Tenta salvar usando o controlador e dá feedback ao usuário
+        // Tenta salvar usando o controlador e dá feedback ao usuário
         try {
-            
             ControladorCliente cont = new ControladorCliente();
             cont.inserir(cliente);
 
@@ -214,10 +229,50 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             textClienteCpf.setText("");
 
         } catch (RuntimeException e) {
-            // Se o controlador lançou um erro (ex: CPF duplicado), ele é capturado aqui
+            // Se o controlador lançou um erro (ex: CPF duplicado, que é uma chave primária)
             javax.swing.JOptionPane.showMessageDialog(this, "Erro ao cadastrar cliente:\n" + e.getMessage(), "Erro no Banco de Dados", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private boolean isValidCPF(String cpf) {
+        String cpfLimpo = cpf.replaceAll("[^0-9]", "");
+        if (cpfLimpo.length() != 11 || cpfLimpo.matches("(\\d)\\1{10}")) {
+            return false;
+        }
+        try {
+            int soma = 0;
+            for (int i = 0; i < 9; i++) {
+                soma += Integer.parseInt(String.valueOf(cpfLimpo.charAt(i))) * (10 - i);
+            }
+            int digito1 = 11 - (soma % 11);
+            if (digito1 >= 10) digito1 = 0;
+            if (digito1 != Integer.parseInt(String.valueOf(cpfLimpo.charAt(9)))) return false;
+            soma = 0;
+            for (int i = 0; i < 10; i++) {
+                soma += Integer.parseInt(String.valueOf(cpfLimpo.charAt(i))) * (11 - i);
+            }
+            int digito2 = 11 - (soma % 11);
+            if (digito2 >= 10) digito2 = 0;
+            if (digito2 != Integer.parseInt(String.valueOf(cpfLimpo.charAt(10)))) return false;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidEmail(String email) {
+        // Primeiro, verifica se o e-mail não é nulo ou vazio
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+
+        // Expressão Regular (Regex) para validar a maioria dos formatos de e-mail comuns
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+
+        // O método String.matches() retorna true se o texto corresponder ao padrão da regex
+        return email.matches(emailRegex);
+    }
+    
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
