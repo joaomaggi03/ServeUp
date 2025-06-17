@@ -4,6 +4,14 @@
  */
 package view;
 
+import Controller.ControladorComanda;
+import Controller.ControladorProduto;
+import model.Comanda;
+import model.Produto;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Joao Maggi
@@ -49,6 +57,7 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
         btnConfirmarPedido = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        VerItensButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,7 +74,7 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "NOME", "ID", "PRECO", "DESCRIÇÃO"
+                "ID", "NOME", "PRECO", "DESCRIÇÃO"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -80,9 +89,26 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
 
         jLabel4.setText("CPF cadastrado:");
 
+        textCpfPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textCpfPedidoActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Quantidade desejada:");
 
+        textQntPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textQntPedidoActionPerformed(evt);
+            }
+        });
+
         btnConfirmarPedido.setText("CONFIRMAR PEDIDO");
+        btnConfirmarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarPedidoActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Itens disponiveis:");
 
@@ -90,6 +116,13 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        VerItensButton.setText("Ver Itens");
+        VerItensButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerItensButtonActionPerformed(evt);
             }
         });
 
@@ -106,16 +139,12 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textIdPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(textIdPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(textQntPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -126,13 +155,20 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jButton1)
                                     .addComponent(jLabel4))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(textCpfPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(188, 188, 188)
-                                        .addComponent(btnConfirmarPedido)))))
+                                        .addComponent(btnConfirmarPedido))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(textCpfPedido)
+                                        .addGap(205, 205, 205))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addGap(242, 242, 242)
+                                    .addComponent(VerItensButton))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 12, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -145,8 +181,10 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel6)
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(VerItensButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -163,15 +201,16 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmarPedido)
                     .addComponent(jButton1))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void textIdPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textIdPedidoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_textIdPedidoActionPerformed
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     sair();        // TODO add your handling code here:
@@ -181,7 +220,113 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
         }
     
 
+    private void textCpfPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCpfPedidoActionPerformed
+        
+    }//GEN-LAST:event_textCpfPedidoActionPerformed
+
+
+    private void textQntPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textQntPedidoActionPerformed
+      
+    }//GEN-LAST:event_textQntPedidoActionPerformed
+
+    private void btnConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarPedidoActionPerformed
+       btnConfirmarPedidoActionPerformed();
+    }//GEN-LAST:event_btnConfirmarPedidoActionPerformed
+
+    private void VerItensButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerItensButtonActionPerformed
+        carregarTabelaProdutos();
+    }//GEN-LAST:event_VerItensButtonActionPerformed
+    
+   
+    
+    private void carregarTabelaProdutos() {
+            DefaultTableModel modelo = (DefaultTableModel) this.jTable1.getModel();
+            modelo.setNumRows(0); // Limpa a tabela
+
+            ControladorProduto ctrlProduto = new ControladorProduto();
+            List<Produto> listaProdutos = ctrlProduto.listarTodos();
+
+            // Ajuste as colunas para "Código", "Nome", "Preço", "Descrição"
+            for (Produto p : listaProdutos) {
+                modelo.addRow(new Object[]{
+                    p.getCodigoProduto(),
+                    p.getNome(),
+                    p.getPreco(),
+                    p.getDescricao()
+                });
+            }
+        }
+    
+  // Este é o método principal, com toda a lógica
+   // ESTE É O ÚNICO MÉTODO QUE VOCÊ PRECISA PARA O BOTÃO
+    public void btnConfirmarPedidoActionPerformed() {                                                  
+        try {
+            // --- 1. Coleta dos dados da tela ---
+            String cpf = textCpfPedido.getText();
+            String codigoProdutoStr = textIdPedido.getText(); // Usando o nome da variável do NetBeans
+            String quantidadeStr = textQntPedido.getText();
+
+            // --- 2. Validação ---
+            if (cpf.trim().isEmpty() || codigoProdutoStr.trim().isEmpty() || quantidadeStr.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todos os campos (CPF, Código do Item, Quantidade) são obrigatórios.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int codigoProduto = Integer.parseInt(codigoProdutoStr);
+            int quantidade = Integer.parseInt(quantidadeStr);
+
+            if (quantidade <= 0) {
+                JOptionPane.showMessageDialog(this, "A quantidade deve ser maior que zero.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // --- 3. Busca o produto pelo CÓDIGO ---
+            ControladorProduto ctrlProduto = new ControladorProduto();
+            // AQUI ESTÁ A CORREÇÃO IMPORTANTE: Usando o método certo!
+            Produto produtoSelecionado = ctrlProduto.buscarPorCodigo(codigoProduto);
+
+            if (produtoSelecionado == null) {
+                JOptionPane.showMessageDialog(this, "Nenhum produto encontrado com o código informado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // --- 4. Busca ou abre uma comanda para o CPF ---
+            ControladorComanda ctrlComanda = new ControladorComanda();
+            // AQUI ESTÁ A OUTRA CORREÇÃO IMPORTANTE: Usando o método que aceita CPF
+            Comanda comandaAtual = ctrlComanda.buscarOuAbrirComandaPorCpf(cpf);
+
+            if (comandaAtual == null) {
+                JOptionPane.showMessageDialog(this, "Não foi possível abrir ou encontrar uma comanda. Verifique se o cliente está cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // --- 5. Adiciona o item na comanda ---
+            // Passamos o ID INTERNO do produto, que pegamos na busca
+            ctrlComanda.adicionarItemNaComanda(comandaAtual.getId(), produtoSelecionado.getId(), quantidade);
+
+            // --- 6. Feedback de sucesso ---
+            JOptionPane.showMessageDialog(this, "Item '" + produtoSelecionado.getNome() + "' adicionado à comanda " + comandaAtual.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            // Limpa os campos para o próximo item
+            textIdPedido.setText("");
+            textQntPedido.setText("");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Código do produto e quantidade devem ser números válidos.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro no sistema: " + e.getMessage(), "Erro Inesperado", JOptionPane.ERROR_MESSAGE);
+        }
+    }                                          
+
+ 
+    
+    
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton VerItensButton;
     private javax.swing.JButton btnConfirmarPedido;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

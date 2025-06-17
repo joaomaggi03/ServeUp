@@ -20,11 +20,6 @@ public class ControladorAdministrador {
         this.ctrlProduto = new ControladorProduto();
     }
 
-    /**
-     * Busca no banco de dados todas as comandas com status 'ABERTA' ou 'EM_PREPARO'.
-     * Esta é a "fila de pedidos" da cozinha.
-     * @return Uma lista de comandas ativas.
-     */
     public List<Comanda> verFilaDePedidos() {
         // Ele delega a tarefa para o controlador especialista no assunto "Comanda"
         return ctrlComanda.listarComandasPorStatus("ABERTA");

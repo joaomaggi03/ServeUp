@@ -93,4 +93,29 @@ public class ControladorCliente {
             throw new RuntimeException("Erro ao deletar cliente: " + e.getMessage(), e);
         }
     }
+    public Cliente buscarPorCpf(String cpf) {
+     
+        String sql = "SELECT * FROM cliente WHERE cpf = ?";
+        String cpfApenasNumeros = cpf.replaceAll("[^0-9]", ""); // Limpa o CPF
+
+        try (Connection conn = FabricaDeConexoes.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, cpfApenasNumeros);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Cliente cliente = new Cliente();
+                    cliente.setCpf(rs.getString("cpf"));
+                    cliente.setNome(rs.getString("nome"));
+                    cliente.setEmail(rs.getString("email"));
+                    // Supondo que o modelo Cliente não tem ID, se tiver, adicione o rs.getInt("id") aqui
+                    return cliente;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar cliente por CPF: " + e.getMessage(), e);
+        }
+        return null; // Retorna null se não encontrou
+    }   
 }

@@ -134,4 +134,37 @@ public class ControladorProduto {
         }
         return produtos;
     }
+    public Produto buscarPorCodigo(int codigoProduto) {
+    // A query busca na tabela 'produto' pela coluna 'codigo_produto'
+        String sql = "SELECT * FROM produto WHERE codigo_produto = ?";
+
+        try (Connection conn = FabricaDeConexoes.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // Define o parâmetro da busca (o código do produto)
+            ps.setInt(1, codigoProduto);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                // Verifica se o banco de dados retornou alguma linha
+                if (rs.next()) {
+                    // Se encontrou, cria um objeto Produto em Java
+                    Produto produto = new Produto();
+                    
+                    produto.setCodigoProduto(rs.getInt("codigo_produto")); // O código que o usuário digitou
+                    produto.setNome(rs.getString("nome"));
+                    produto.setPreco(rs.getBigDecimal("preco"));
+                    produto.setDescricao(rs.getString("descricao"));
+
+                    // Retorna o objeto completo
+                    return produto;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar produto por código: " + e.getMessage(), e);
+        }
+
+        // Se o 'if (rs.next())' for falso, significa que não existe produto com aquele código.
+        // Nesse caso, o método retorna null.
+        return null;
+    }
 }

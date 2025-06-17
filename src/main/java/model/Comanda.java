@@ -17,7 +17,7 @@ import java.util.List;
 public class Comanda {
     
     private int id;
-    private int idCliente; // Chave estrangeira para saber de qual cliente é a comanda
+    private String idCliente; // Chave estrangeira para saber de qual cliente é a comanda
     private Timestamp dataAbertura;
     private Timestamp dataFechamento; // Pode ser nulo se a comanda estiver aberta
     private BigDecimal valorTotal;
@@ -44,11 +44,11 @@ public class Comanda {
         this.id = id;
     }
 
-    public int getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(String idCliente) {
         this.idCliente = idCliente;
     }
 
