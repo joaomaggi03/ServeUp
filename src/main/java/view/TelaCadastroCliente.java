@@ -4,6 +4,9 @@
  */
 package view;
 
+import Controller.ControladorCliente;
+import model.Cliente;
+
 /**
  *
  * @author Joao Maggi
@@ -47,6 +50,12 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
         jLabel3.setText("NOME:");
 
+        textClienteNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textClienteNomeActionPerformed(evt);
+            }
+        });
+
         textClienteEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textClienteEmailActionPerformed(evt);
@@ -54,6 +63,12 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         });
 
         jLabel4.setText("EMAIL:");
+
+        textClienteCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textClienteCpfActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("CPF:");
 
@@ -149,49 +164,62 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_textClienteEmailActionPerformed
 
     private void btnCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarClienteActionPerformed
-        // TODO add your handling code here:
+        cadastraClientes();
     }//GEN-LAST:event_btnCadastrarClienteActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVoltarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void textClienteNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textClienteNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textClienteNomeActionPerformed
+
+    private void textClienteCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textClienteCpfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textClienteCpfActionPerformed
+
+    
+    
+    public void cadastraClientes(){
+        
+        String cpf = textClienteCpf.getText();
+        String nome = textClienteNome.getText();   
+        String email = textClienteEmail.getText();  
+        
+        // 2. Validação simples para não salvar dados em branco
+        if (cpf.trim().isEmpty() || nome.trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "CPF e Nome são obrigatórios!", "Erro de Validação", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return; // Para a execução aqui se os campos estiverem vazios
         }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCadastroCliente().setVisible(true);
-            }
-        });
+        // 3. Cria o objeto Cliente
+        Cliente cliente = new Cliente();
+        cliente.setCpf(cpf);
+        cliente.setNome(nome);
+        cliente.setEmail(email);
+
+        // 4. Tenta salvar usando o controlador e dá feedback ao usuário
+        try {
+            
+            ControladorCliente cont = new ControladorCliente();
+            cont.inserir(cliente);
+
+            // Se chegou até aqui, deu tudo certo!
+            javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!", "Sucesso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            // Opcional: Limpar campos após salvar
+            textClienteNome.setText("");
+            textClienteEmail.setText("");
+            textClienteCpf.setText("");
+
+        } catch (RuntimeException e) {
+            // Se o controlador lançou um erro (ex: CPF duplicado), ele é capturado aqui
+            javax.swing.JOptionPane.showMessageDialog(this, "Erro ao cadastrar cliente:\n" + e.getMessage(), "Erro no Banco de Dados", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }
-
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrarCliente;
     private javax.swing.JButton btnVoltar;

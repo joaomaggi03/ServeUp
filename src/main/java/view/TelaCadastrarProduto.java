@@ -3,17 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+import model.Produto;
+import Controller.ControladorProduto;
+import java.math.BigDecimal;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Joao Maggi
  */
-public class TelaCadastarProduto extends javax.swing.JFrame {
+public class TelaCadastrarProduto extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaCadastarProduto
      */
-    public TelaCadastarProduto() {
+    public TelaCadastrarProduto() {
         initComponents();
     }
 
@@ -36,7 +39,7 @@ public class TelaCadastarProduto extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        textIdProduto = new javax.swing.JTextField();
+        textCodigoProduto = new javax.swing.JTextField();
         textNomeProduto = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         textPreçoProduto = new javax.swing.JTextField();
@@ -65,11 +68,11 @@ public class TelaCadastarProduto extends javax.swing.JFrame {
 
         jLabel2.setText("CADASTRO PRODUTO");
 
-        jLabel6.setText("ID:");
+        jLabel6.setText("CODIGO:");
 
-        textIdProduto.addActionListener(new java.awt.event.ActionListener() {
+        textCodigoProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textIdProdutoActionPerformed(evt);
+                textCodigoProdutoActionPerformed(evt);
             }
         });
 
@@ -116,7 +119,7 @@ public class TelaCadastarProduto extends javax.swing.JFrame {
                         .addGap(92, 92, 92)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(textIdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(textCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel8)
@@ -151,7 +154,7 @@ public class TelaCadastarProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(textIdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -182,47 +185,67 @@ public class TelaCadastarProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textNomeProdutoActionPerformed
 
-    private void textIdProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textIdProdutoActionPerformed
+    private void textCodigoProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCodigoProdutoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textIdProdutoActionPerformed
+    }//GEN-LAST:event_textCodigoProdutoActionPerformed
 
     private void btnCadastrarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarProdutoActionPerformed
-        // TODO add your handling code here:
+        cadastraProdutos();
     }//GEN-LAST:event_btnCadastrarProdutoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+   public void cadastraProdutos(){
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCadastarProduto().setVisible(true);
-            }
-        });
+    try {
+        // --- 1. Coleta dos dados da tela como Texto ---
+        String codigoString = textCodigoProduto.getText();
+        String nome = textNomeProduto.getText();
+        String descricao = textDescricaoProduto.getText();
+        String precoString = textPreçoProduto.getText();
+
+        // --- 2. Validação de campos obrigatórios ---
+        if (codigoString.trim().isEmpty() || nome.trim().isEmpty() || precoString.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Código, Nome e Preço são obrigatórios!", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            return; // Interrompe a execução
+        }
+
+        // --- 3. Conversão de Tipos e Validação de Formato ---
+        // Se o preço não for um número válido, a linha abaixo vai lançar uma NumberFormatException
+        BigDecimal preco = new BigDecimal(precoString.replace(",", ".")); // Troca vírgula por ponto
+        int codigo = Integer.parseInt(codigoString);
+        // Validação extra: o preço não pode ser negativo
+        if (preco.compareTo(BigDecimal.ZERO) < 0) {
+            JOptionPane.showMessageDialog(this, "O preço não pode ser um valor negativo.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }else if (codigo < 0){
+            JOptionPane.showMessageDialog(this, "O codigo nao pode ser Nulo", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // --- 4. Cria o objeto Produto (APENAS se todas as validações passaram) ---
+        Produto produto = new Produto();
+        produto.setCodigoProduto(codigo);
+        produto.setNome(nome);
+        produto.setDescricao(descricao);
+        produto.setPreco(preco);
+
+        // --- 5. Chama o controlador para salvar ---
+        ControladorProduto cont = new ControladorProduto();
+        cont.inserir(produto);
+
+        // --- 6. Feedback de sucesso e limpeza da tela ---
+        JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+        textCodigoProduto.setText("");
+        textNomeProduto.setText("");
+        textDescricaoProduto.setText("");
+        textPreçoProduto.setText("");
+
+        } catch (NumberFormatException e) {
+            // Este 'catch' é específico para erros de conversão de número
+            JOptionPane.showMessageDialog(this, "Erro de Formato: O preço deve ser um número válido (ex: 10.50).", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+        } catch (RuntimeException e) {
+            // Este 'catch' captura outros erros, como os do banco de dados (ex: código duplicado)
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar produto:\n" + e.getMessage(), "Erro no Banco de Dados", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -241,8 +264,8 @@ public class TelaCadastarProduto extends javax.swing.JFrame {
     private javax.swing.JTextField textClienteCpf;
     private javax.swing.JTextField textClienteEmail;
     private javax.swing.JTextField textClienteNome;
+    private javax.swing.JTextField textCodigoProduto;
     private javax.swing.JTextField textDescricaoProduto;
-    private javax.swing.JTextField textIdProduto;
     private javax.swing.JTextField textNomeProduto;
     private javax.swing.JTextField textPreçoProduto;
     // End of variables declaration//GEN-END:variables

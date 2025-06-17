@@ -22,7 +22,7 @@ public class ControladorProduto {
      * @param produto O objeto Produto a ser inserido, sem o ID.
      */
     public void inserir(Produto produto) {
-        String sql = "INSERT INTO produto(nome, preco, descricao) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO produto (nome, preco, descricao, codigo_produto) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = FabricaDeConexoes.getConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -30,7 +30,7 @@ public class ControladorProduto {
             ps.setString(1, produto.getNome());
             ps.setBigDecimal(2, produto.getPreco()); 
             ps.setString(3, produto.getDescricao());
-
+            ps.setInt(4, produto.getCodigoProduto());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class ControladorProduto {
             ps.setString(1, produto.getNome());
             ps.setBigDecimal(2, produto.getPreco());
             ps.setString(3, produto.getDescricao());
-            ps.setInt(4, produto.getId()); // O ID é o último parâmetro, para a cláusula WHERE
+            ps.setInt(4, produto.getCodigoProduto()); // O ID é o último parâmetro, para a cláusula WHERE
 
             ps.executeUpdate();
 

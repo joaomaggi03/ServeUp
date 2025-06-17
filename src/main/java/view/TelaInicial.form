@@ -90,9 +90,9 @@
                   <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnCadastroCliente" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnCadastrarProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCadastrarProduto" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

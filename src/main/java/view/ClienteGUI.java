@@ -137,41 +137,7 @@ public class ClienteGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarActionPerformed
-        // 1. Coleta os dados da tela
-      
-      String cpf = jTextField1.getText();
-      String nome = jTextField2.getText();   
-      String email = jTextField3.getText();  
      
-      // 2. Validação simples para não salvar dados em branco
-      if (cpf.trim().isEmpty() || nome.trim().isEmpty()) {
-          javax.swing.JOptionPane.showMessageDialog(this, "CPF e Nome são obrigatórios!", "Erro de Validação", javax.swing.JOptionPane.ERROR_MESSAGE);
-          return; // Para a execução aqui se os campos estiverem vazios
-      }
-
-      // 3. Cria o objeto Cliente
-      Cliente cliente = new Cliente();
-      cliente.setCpf(cpf);
-      cliente.setNome(nome);
-      cliente.setEmail(email);
-
-      // 4. Tenta salvar usando o controlador e dá feedback ao usuário
-      try {
-          ControladorCliente cont = new ControladorCliente();
-          cont.inserir(cliente);
-
-          // Se chegou até aqui, deu tudo certo!
-          javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!", "Sucesso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-          // Opcional: Limpar campos após salvar
-          jTextField1.setText("");
-          jTextField2.setText("");
-          jTextField3.setText("");
-
-      } catch (RuntimeException e) {
-          // Se o controlador lançou um erro (ex: CPF duplicado), ele é capturado aqui
-          javax.swing.JOptionPane.showMessageDialog(this, "Erro ao cadastrar cliente:\n" + e.getMessage(), "Erro no Banco de Dados", javax.swing.JOptionPane.ERROR_MESSAGE);
-      }
     }//GEN-LAST:event_CadastrarActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
