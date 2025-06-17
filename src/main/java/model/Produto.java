@@ -8,6 +8,7 @@ import java.math.BigDecimal; // Importação necessária para usar BigDecimal
 public class Produto {
  
     // 1. Atributos agora são PRIVATE para garantir o encapsulamento.
+    private int id;
     private int codigo_produto;
     private String nome;
     private BigDecimal preco;   // 2. Preço agora usa BigDecimal para precisão monetária.
@@ -18,14 +19,22 @@ public class Produto {
     }
     
     // Construtor com parâmetros, já com os tipos e nomes corretos
-    public Produto(int id, String nome, BigDecimal preco, String descricao) {
-        this.codigo_produto = id;
+    public Produto(int id, String nome, BigDecimal preco, String descricao, int codigo_produto) {
+        this.id = id;
+        this.codigo_produto = codigo_produto;
         this.nome = nome;
         this.preco = preco;
         this.descricao = descricao;
     }
+    
+    public int getCodigo_produto() {
+        return codigo_produto;
+    }
 
     // Getters e Setters para todos os atributos
+    public void setCodigo_produto(int codigo_produto) {    
+        this.codigo_produto = codigo_produto;
+    }
 
     public int getCodigoProduto() {
         return codigo_produto;
@@ -60,6 +69,11 @@ public class Produto {
     }
 
     public int getId() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
 }
