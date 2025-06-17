@@ -13,6 +13,15 @@ import javax.swing.JOptionPane;
  */
 public class TelaCadastrarProduto extends javax.swing.JFrame {
 
+    private static TelaCadastrarProduto TelaCadastrarProdutoUnic;
+
+    //Metodo Singleton
+    public static TelaCadastrarProduto geraCadProd() {
+        if (TelaCadastrarProdutoUnic == null) {
+            TelaCadastrarProdutoUnic = new TelaCadastrarProduto();
+        }
+        return TelaCadastrarProdutoUnic;
+    }
     /**
      * Creates new form TelaCadastarProduto
      */
@@ -61,7 +70,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
 
         jLabel5.setText("CPF:");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("SERVE UP");
@@ -89,6 +98,11 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
         jLabel9.setText("DESCRIÇÃO:");
 
         btnVoltar.setText("VOLTAR");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         btnCadastrarProduto.setText("CADASTRAR");
         btnCadastrarProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -193,8 +207,14 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
         cadastraProdutos();
     }//GEN-LAST:event_btnCadastrarProdutoActionPerformed
 
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        sair();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVoltarActionPerformed
+        public void sair(){
+            this.dispose();
+        }
    public void cadastraProdutos(){
-
+    
     try {
         // --- 1. Coleta dos dados da tela como Texto ---
         String codigoString = textCodigoProduto.getText();

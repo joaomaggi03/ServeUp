@@ -10,12 +10,25 @@ package view;
  */
 public class TelaPedidosRealizados extends javax.swing.JFrame {
 
+    
+    private static TelaPedidosRealizados TelaPedidosRealizadosUnic;
+
+    //Metodo Singleton
+    public static TelaPedidosRealizados geraPedReal() {
+        if (TelaPedidosRealizadosUnic == null) {
+            TelaPedidosRealizadosUnic = new TelaPedidosRealizados();
+        }
+        return TelaPedidosRealizadosUnic;
+    }
+    /**
     /**
      * Creates new form TelaPedidosRealizados
      */
     public TelaPedidosRealizados() {
         initComponents();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,6 +67,11 @@ public class TelaPedidosRealizados extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         btnVoltar.setText("VOLTAR");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,6 +117,13 @@ public class TelaPedidosRealizados extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+    sair();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVoltarActionPerformed
+    
+    public void sair(){
+            this.dispose();
+        }
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

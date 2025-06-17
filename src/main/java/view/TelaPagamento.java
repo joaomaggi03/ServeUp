@@ -10,6 +10,16 @@ package view;
  */
 public class TelaPagamento extends javax.swing.JFrame {
 
+    private static TelaPagamento TelaPagamentoUnic;
+
+    //Metodo Singleton
+    public static TelaPagamento geraPagar() {
+        if (TelaPagamentoUnic == null) {
+            TelaPagamentoUnic = new TelaPagamento();
+        }
+        return TelaPagamentoUnic;
+    }
+    
     /**
      * Creates new form TelaPagamento
      */
@@ -38,7 +48,7 @@ public class TelaPagamento extends javax.swing.JFrame {
         btnPagar = new javax.swing.JButton();
         btnVoltar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel2.setText("PAGAMENTO");
 
@@ -65,6 +75,11 @@ public class TelaPagamento extends javax.swing.JFrame {
         btnPagar.setText("PAGAR");
 
         btnVoltar.setText("VOLTAR");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,7 +92,7 @@ public class TelaPagamento extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textCpfPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textCpfPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,6 +148,13 @@ public class TelaPagamento extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        sair();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVoltarActionPerformed
+    
+    public void sair(){
+            this.dispose();
+        }
     /**
      * @param args the command line arguments
      */

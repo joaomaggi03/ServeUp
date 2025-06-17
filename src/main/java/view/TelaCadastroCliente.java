@@ -13,6 +13,15 @@ import model.Cliente;
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
 
+    private static TelaCadastroCliente TelaCadastroClienteUnic;
+     
+    public static TelaCadastroCliente geraCadCli() {
+        if (TelaCadastroClienteUnic == null) {
+            TelaCadastroClienteUnic = new TelaCadastroCliente();
+        }
+        return TelaCadastroClienteUnic;
+    }
+    
     /**
      * Creates new form TelaCadastroProduto
      */
@@ -168,7 +177,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarClienteActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        // TODO add your handling code here:
+    sair();        // TODO add your handling code here:
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void textClienteNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textClienteNomeActionPerformed
@@ -180,7 +189,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_textClienteCpfActionPerformed
 
     
-    
+    public void sair(){
+            this.dispose();
+        }
 
     public void cadastraClientes() {
         

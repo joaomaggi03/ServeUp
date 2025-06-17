@@ -9,7 +9,16 @@ package view;
  * @author Joao Maggi
  */
 public class TelaTabelaProdutos extends javax.swing.JFrame {
+    
+    private static TelaTabelaProdutos TelaTabelaProdutosUnic;
 
+    //Metodo Singleton
+    public static TelaTabelaProdutos geraTabProd() {
+        if (TelaTabelaProdutosUnic == null) {
+            TelaTabelaProdutosUnic = new TelaTabelaProdutos();
+        }
+        return TelaTabelaProdutosUnic;
+    }
     /**
      * Creates new form TelaTabelaProdutos
      */
@@ -70,6 +79,11 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
         btnAlterarPeloCodigo.setText("ALTERAR PREÇO PELO CÓDIGO");
 
         btnVoltar.setText("VOLTAR");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,6 +149,13 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textIdProdutoActionPerformed
 
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+    sair();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVoltarActionPerformed
+    
+    public void sair(){
+            this.dispose();
+        }
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

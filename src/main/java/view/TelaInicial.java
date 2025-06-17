@@ -31,15 +31,14 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnCadastroCliente = new javax.swing.JButton();
         btnFazerPedido = new javax.swing.JButton();
-        btnSair = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnCadastrarProduto = new javax.swing.JButton();
         btnVerPedidos = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         btnVerProdutos = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnPagar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("SERVE UP");
@@ -56,11 +55,9 @@ public class TelaInicial extends javax.swing.JFrame {
         });
 
         btnFazerPedido.setText("FAZER PEDIDO");
-
-        btnSair.setText("SAIR");
-        btnSair.addActionListener(new java.awt.event.ActionListener() {
+        btnFazerPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairActionPerformed(evt);
+                btnFazerPedidoActionPerformed(evt);
             }
         });
 
@@ -74,13 +71,23 @@ public class TelaInicial extends javax.swing.JFrame {
         });
 
         btnVerPedidos.setText("VER PEDIDOS");
+        btnVerPedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerPedidosActionPerformed(evt);
+            }
+        });
 
         btnVerProdutos.setText("VER PRODUTOS");
-
-        jButton1.setText("PAGAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnVerProdutos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnVerProdutosActionPerformed(evt);
+            }
+        });
+
+        btnPagar.setText("PAGAR");
+        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarActionPerformed(evt);
             }
         });
 
@@ -92,20 +99,15 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnFazerPedido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCadastroCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(96, 96, 96)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSair)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnFazerPedido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnCadastroCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(96, 96, 96)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnCadastrarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                                    .addComponent(btnVerPedidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnVerProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(btnCadastrarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addComponent(btnVerPedidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnVerProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(166, 166, 166)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,31 +152,64 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVerProdutos)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(btnSair)
-                .addGap(16, 16, 16))
+                    .addComponent(btnPagar))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroClienteActionPerformed
-        // TODO add your handling code here:
+        abrirCadastroCliente();               // TODO add your handling code here:
     }//GEN-LAST:event_btnCadastroClienteActionPerformed
 
-    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSairActionPerformed
-
     private void btnCadastrarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarProdutoActionPerformed
-        // TODO add your handling code here:
+        abrirCadProd(); // TODO add your handling code here:
     }//GEN-LAST:event_btnCadastrarProdutoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+       abrirPagar(); // TODO add your handling code here:
+    }//GEN-LAST:event_btnPagarActionPerformed
 
+    private void btnVerPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPedidosActionPerformed
+        abrirVerPedidos();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerPedidosActionPerformed
+
+    private void btnVerProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerProdutosActionPerformed
+        abrirVerProd();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerProdutosActionPerformed
+
+    private void btnFazerPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFazerPedidoActionPerformed
+        abrirRealizarPedido();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFazerPedidoActionPerformed
+
+    
+    
+    public void abrirCadProd(){
+        TelaCadastrarProduto.geraCadProd().setVisible(true);
+    }
+    
+    public void abrirVerPedidos(){
+        TelaPedidosRealizados.geraPedReal().setVisible(true);
+    }
+    
+    public void abrirVerProd(){
+        TelaTabelaProdutos.geraTabProd().setVisible(true);
+    }
+    
+    public void abrirPagar(){
+        TelaPagamento.geraPagar().setVisible(true);
+    }
+    
+    public void abrirRealizarPedido(){
+        TelaRealizarPedido.geraRealizarPed().setVisible(true);
+    }
+    
+    public void abrirCadastroCliente(){
+        TelaCadastroCliente.geraCadCli().setVisible(true);
+    }
+        
+    
     /**
      * @param args the command line arguments
      */
@@ -215,10 +250,9 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrarProduto;
     private javax.swing.JButton btnCadastroCliente;
     private javax.swing.JButton btnFazerPedido;
-    private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnPagar;
     private javax.swing.JButton btnVerPedidos;
     private javax.swing.JButton btnVerProdutos;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
