@@ -162,4 +162,52 @@ public class ControladorComanda {
         // Retorna a lista completa
         return comandas;
     }
+
+    public List<ItemComanda> listarItensPorComanda(int idComanda) {
+        String sql = "SELECT * FROM ItemComanda WHERE id_comanda = ?";
+        List<ItemComanda> lista = new ArrayList<>();
+
+        try (Connection conn = FabricaDeConexoes.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idComanda);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ItemComanda item = new ItemComanda();
+                    item.setId(rs.getInt("id"));
+                    item.setIdComanda(rs.getInt("id_comanda"));
+                    item.setIdProduto(rs.getInt("id_produto"));
+                    item.setQuantidade(rs.getInt("quantidade"));
+                    item.setPrecoUnitario(rs.getBigDecimal("preco_unitario"));
+                    item.setSubtotal(rs.getBigDecimal("subtotal"));
+                    lista.add(item);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar itens da comanda: " + e.getMessage(), e);
+        }
+
+        return lista;
+    }
+    
+    public void fecharComanda(int idComanda) {
+        
+        String sql = "UPDATE Comanda SET status = 'FECHADA', data_fechamento = ?, valor_total = (SELECT COALESCE(SUM(subtotal), 0) FROM ItemComanda WHERE id_comanda = ?) WHERE id = ?";
+
+        try (Connection conn = FabricaDeConexoes.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            Timestamp agora = new Timestamp(System.currentTimeMillis());
+            ps.setTimestamp(1, agora);
+            ps.setInt(2, idComanda); // Para somar os subtotais
+            ps.setInt(3, idComanda); // Para localizar a comanda
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao fechar comanda: " + e.getMessage(), e);
+        }
+    }
 }

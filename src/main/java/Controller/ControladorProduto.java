@@ -51,7 +51,7 @@ public class ControladorProduto {
             ps.setString(1, produto.getNome());
             ps.setBigDecimal(2, produto.getPreco());
             ps.setString(3, produto.getDescricao());
-            ps.setInt(4, produto.getCodigoProduto()); // O ID é o último parâmetro, para a cláusula WHERE
+            ps.setInt(4, produto.getId()); 
 
             ps.executeUpdate();
 
@@ -84,7 +84,7 @@ public class ControladorProduto {
      * @return O objeto Produto se encontrado, ou null se não existir.
      */
     public Produto buscarPorId(int id) {
-        String sql = "SELECT id, nome, preco, descricao FROM produto WHERE id = ?";
+        String sql = "SELECT id, nome, preco, descricao, codigo_produto FROM produto WHERE id = ?";
 
         try (Connection conn = FabricaDeConexoes.getConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -96,7 +96,7 @@ public class ControladorProduto {
                     String nome = rs.getString("nome");
                     BigDecimal preco = rs.getBigDecimal("preco");
                     String descricao = rs.getString("descricao");
-                    int codigo_produto = rs.getInt("codigo");
+                    int codigo_produto = rs.getInt("codigo_produto");
                     // Retorna o objeto Produto preenchido
                     return new Produto(id, nome, preco, descricao, codigo_produto);
                 }
@@ -136,6 +136,8 @@ public class ControladorProduto {
         }
         return produtos;
     }
+    
+    
     public Produto buscarPorCodigo(int codigoProduto) {
     // A query busca na tabela 'produto' pela coluna 'codigo_produto'
         String sql = "SELECT * FROM produto WHERE codigo_produto = ?";
@@ -151,7 +153,7 @@ public class ControladorProduto {
                 if (rs.next()) {
                     // Se encontrou, cria um objeto Produto em Java
                     Produto produto = new Produto();
-                    
+                    produto.setId(rs.getInt("id"));
                     produto.setCodigoProduto(rs.getInt("codigo_produto")); // O código que o usuário digitou
                     produto.setNome(rs.getString("nome"));
                     produto.setPreco(rs.getBigDecimal("preco"));

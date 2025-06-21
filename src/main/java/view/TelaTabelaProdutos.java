@@ -4,6 +4,11 @@
  */
 package view;
 
+import Controller.ControladorProduto;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.Produto;
+
 /**
  *
  * @author Joao Maggi
@@ -45,6 +50,9 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
         btnExcluirPeloCodigo = new javax.swing.JButton();
         btnAlterarPeloCodigo = new javax.swing.JButton();
         btnVoltar = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
+        textNovoPreco = new javax.swing.JTextField();
+        textPreco = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,9 +82,19 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
             }
         });
 
-        btnExcluirPeloCodigo.setText("EXCLUIR PELO CÓDIGO");
+        btnExcluirPeloCodigo.setText("EXCLUIR PELO ID");
+        btnExcluirPeloCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirPeloCodigoActionPerformed(evt);
+            }
+        });
 
-        btnAlterarPeloCodigo.setText("ALTERAR PREÇO PELO CÓDIGO");
+        btnAlterarPeloCodigo.setText("ALTERAR PREÇO PELO ID");
+        btnAlterarPeloCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarPeloCodigoActionPerformed(evt);
+            }
+        });
 
         btnVoltar.setText("VOLTAR");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -84,6 +102,21 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
                 btnVoltarActionPerformed(evt);
             }
         });
+
+        btnMostrar.setText("MOSTRAR");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+
+        textNovoPreco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textNovoPrecoActionPerformed(evt);
+            }
+        });
+
+        textPreco.setText("Novo Preço: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,29 +127,36 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnAlterarPeloCodigo))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textIdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnExcluirPeloCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(textIdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(textPreco)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(textNovoPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnAlterarPeloCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnExcluirPeloCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
                         .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnVoltar)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(139, 139, 139)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(27, 27, 27)
-                                        .addComponent(jLabel1)))))
-                        .addGap(0, 10, Short.MAX_VALUE)))
+                                        .addComponent(jLabel1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnMostrar)
+                                        .addGap(3, 3, 3))))
+                            .addComponent(btnVoltar)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -124,22 +164,31 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(textIdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExcluirPeloCodigo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAlterarPeloCodigo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnVoltar)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(textIdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnExcluirPeloCodigo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAlterarPeloCodigo)
+                            .addComponent(textNovoPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textPreco))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVoltar)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(btnMostrar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -150,17 +199,97 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_textIdProdutoActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-    sair();        // TODO add your handling code here:
+        sair();        // TODO add your handling code here:
     }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void btnExcluirPeloCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirPeloCodigoActionPerformed
+        excluir();
+    }//GEN-LAST:event_btnExcluirPeloCodigoActionPerformed
+
+    private void btnAlterarPeloCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarPeloCodigoActionPerformed
+        alterar();
+    }//GEN-LAST:event_btnAlterarPeloCodigoActionPerformed
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        carregarTabelaProdutos();
+    }//GEN-LAST:event_btnMostrarActionPerformed
+
+    private void textNovoPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNovoPrecoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textNovoPrecoActionPerformed
     
     public void sair(){
             this.dispose();
         }
    
+    private void carregarTabelaProdutos() {
+       
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0); // limpa a tabela
+
+        ControladorProduto ctrl = new ControladorProduto();
+        List<Produto> lista = ctrl.listarTodos();
+
+        for (Produto p : lista) {
+            modelo.addRow(new Object[]{
+                p.getNome(),
+                p.getId(),
+                p.getPreco(),
+                p.getDescricao()
+            });
+        }
+    }
+
+    private void excluir(){
+        try {
+            int id = Integer.parseInt(textIdProduto.getText().trim());
+            ControladorProduto ctrl = new ControladorProduto();
+            ctrl.excluir(id);
+            carregarTabelaProdutos();
+            textIdProduto.setText("");
+            javax.swing.JOptionPane.showMessageDialog(this, "Produto excluído com sucesso.");
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "ID inválido.");
+        } catch (RuntimeException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        }
+    }
+    
+    private void alterar() {
+        try {
+            int id = Integer.parseInt(textIdProduto.getText().trim());
+
+            // PEGA DO JTextField certo!
+            String precoStr = textNovoPreco.getText().trim().replace(",", ".");
+            java.math.BigDecimal novoPreco = new java.math.BigDecimal(precoStr);
+
+            ControladorProduto ctrl = new ControladorProduto();
+            Produto produto = ctrl.buscarPorId(id);
+
+            if (produto == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Produto não encontrado.");
+                return;
+            }
+
+            produto.setPreco(novoPreco); // Atualiza o valor
+            ctrl.atualizar(produto);     // Aplica no banco
+
+            carregarTabelaProdutos(); // Atualiza visualmente a tabela
+            textIdProduto.setText("");
+            textNovoPreco.setText(""); // limpa o campo digitado
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Preço alterado com sucesso.");
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Digite valores válidos (ID numérico e preço decimal).");
+        } catch (RuntimeException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarPeloCodigo;
     private javax.swing.JButton btnExcluirPeloCodigo;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -169,5 +298,7 @@ public class TelaTabelaProdutos extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField textIdProduto;
+    private javax.swing.JTextField textNovoPreco;
+    private javax.swing.JLabel textPreco;
     // End of variables declaration//GEN-END:variables
 }

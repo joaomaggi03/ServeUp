@@ -4,6 +4,15 @@
  */
 package view;
 
+import Controller.ControladorCliente;
+import Controller.ControladorComanda;
+import Controller.ControladorItemComanda;
+import Controller.ControladorProduto;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.Comanda;
+import model.ItemComanda;
+
 /**
  *
  * @author Joao Maggi
@@ -45,6 +54,7 @@ public class TelaPedidosRealizados extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnVoltar = new javax.swing.JButton();
+        btnAtualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,13 +65,13 @@ public class TelaPedidosRealizados extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "NOME", "CPF"
+                "ITEM", "NOME", "CPF", "QUANTIDADE", "STATUS"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -73,23 +83,30 @@ public class TelaPedidosRealizados extends javax.swing.JFrame {
             }
         });
 
+        btnAtualizar.setText("Atualizar Pedidos");
+        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnVoltar)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnVoltar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(161, 161, 161)
+                                .addComponent(btnAtualizar)
+                                .addGap(80, 80, 80)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addGroup(layout.createSequentialGroup()
@@ -104,9 +121,12 @@ public class TelaPedidosRealizados extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAtualizar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
@@ -120,13 +140,51 @@ public class TelaPedidosRealizados extends javax.swing.JFrame {
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
     sair();        // TODO add your handling code here:
     }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+       carregarTabelaComanda();
+    }//GEN-LAST:event_btnAtualizarActionPerformed
     
     public void sair(){
             this.dispose();
         }
    
+    private void carregarTabelaComanda() {
+    
+        DefaultTableModel modelo = (DefaultTableModel) this.jTable1.getModel();
+        modelo.setNumRows(0); // Limpa a tabela
 
+        ControladorComanda ctrlComanda = new ControladorComanda();
+        ControladorCliente ctrlCliente = new ControladorCliente();
+        ControladorItemComanda ctrlItem = new ControladorItemComanda();
+        ControladorProduto ctrlProduto = new ControladorProduto();
+
+        List<Comanda> comandas = ctrlComanda.listarComandasPorStatus("ABERTA");
+
+        for (Comanda comanda : comandas) {
+            String cpf = comanda.getIdCliente();
+            String nomeCliente = ctrlCliente.buscarPorCpf(cpf).getNome();
+            List<ItemComanda> itens = ctrlItem.listarItensPorComanda(comanda.getId());
+
+            for (ItemComanda item : itens) {
+                String nomeProduto = ctrlProduto.buscarPorId(item.getIdProduto()).getNome();
+                int quantidade = item.getQuantidade();
+
+                modelo.addRow(new Object[]{
+                nomeProduto,         // ITEM
+                nomeCliente,         // NOME
+                cpf,                 // CPF
+                quantidade,          // QUANTIDADE
+                comanda.getStatus()  // STATUS
+                });
+            }
+        }
+    }
+   
+
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

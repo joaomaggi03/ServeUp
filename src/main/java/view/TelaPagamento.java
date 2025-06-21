@@ -4,6 +4,17 @@
  */
 package view;
 
+import Controller.ControladorComanda;
+import Controller.ControladorItemComanda;
+import Controller.ControladorProduto;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Comanda;
+import model.ItemComanda;
+import model.Produto;
+
 /**
  *
  * @author Joao Maggi
@@ -47,6 +58,9 @@ public class TelaPagamento extends javax.swing.JFrame {
         textTotalPedido = new javax.swing.JTextField();
         btnPagar = new javax.swing.JButton();
         btnVoltar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        textQtd = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -65,19 +79,45 @@ public class TelaPagamento extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "NOME", "ID", "PRECO", "DESCRIÇÃO"
+                "ITEM", "ID", "PRECO", "DESCRIÇÃO"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel4.setText("TOTAL:");
+        jLabel4.setText("QUANTIDADE:");
+
+        textTotalPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textTotalPedidoActionPerformed(evt);
+            }
+        });
 
         btnPagar.setText("PAGAR");
+        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarActionPerformed(evt);
+            }
+        });
 
         btnVoltar.setText("VOLTAR");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVoltarActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("TOTAL:");
+
+        textQtd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textQtdActionPerformed(evt);
             }
         });
 
@@ -89,17 +129,8 @@ public class TelaPagamento extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textCpfPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(153, 153, 153)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,18 +138,33 @@ public class TelaPagamento extends javax.swing.JFrame {
                                         .addGap(6, 6, 6)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel1))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textTotalPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textTotalPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPagar)
-                        .addGap(24, 24, 24))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnPagar, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                            .addComponent(btnVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVoltar)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textCpfPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscar)
+                        .addGap(24, 24, 24))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,19 +176,28 @@ public class TelaPagamento extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(textCpfPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(textCpfPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(textTotalPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPagar))
-                .addGap(18, 18, 18)
-                .addComponent(btnVoltar)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btnPagar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnVoltar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(textQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(textTotalPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -151,25 +206,111 @@ public class TelaPagamento extends javax.swing.JFrame {
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         sair();        // TODO add your handling code here:
     }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+       buscarComanda();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+        pagarComanda();
+    }//GEN-LAST:event_btnPagarActionPerformed
+
+    private void textTotalPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textTotalPedidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textTotalPedidoActionPerformed
+
+    private void textQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textQtdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textQtdActionPerformed
     
     public void sair(){
             this.dispose();
+            limparTela();
         }
+    
+    private void buscarComanda(){
+        
+        String cpf = textCpfPagamento.getText().replaceAll("[^0-9]", "");
+
+        ControladorComanda controlador = new ControladorComanda();
+        Comanda comanda = controlador.buscarOuAbrirComandaPorCpf(cpf);
+
+        if (comanda == null) {
+            JOptionPane.showMessageDialog(this, "Comanda não encontrada para este CPF.");
+            return;
+        }
+
+        // Limpa tabela
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        BigDecimal total = BigDecimal.ZERO;
+        ControladorItemComanda ctrlItem = new ControladorItemComanda();
+        List<ItemComanda> itens = ctrlItem.listarItensPorComanda(comanda.getId());
+
+        for (ItemComanda item : itens) {
+            Produto p = new ControladorProduto().buscarPorId(item.getIdProduto());
+            model.addRow(new Object[]{
+                p.getNome(),
+                p.getId(),
+                p.getPreco(),
+                p.getDescricao()
+                
+            });
+            total = total.add(item.getSubtotal());
+        
+        textTotalPedido.setText("R$ " + total.toString());
+        int totalQtd = itens.stream().mapToInt(ItemComanda::getQuantidade).sum();
+        textQtd.setText(String.valueOf(totalQtd));
+
+        }
+
+        textTotalPedido.setText("R$ " + total.toString());
+    }
+
+
+    private void pagarComanda() {
+        String cpf = textCpfPagamento.getText().replaceAll("[^0-9]", "");
+        ControladorComanda controlador = new ControladorComanda();
+        Comanda comanda = controlador.buscarOuAbrirComandaPorCpf(cpf);
+
+        if (comanda != null) {
+            controlador.fecharComanda(comanda.getId());
+            JOptionPane.showMessageDialog(this, "Pagamento confirmado e comanda fechada com sucesso.");
+
+            limparTela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Comanda não encontrada.");
+        }
+    }
+    
+    private void limparTela() {
+        
+        textCpfPagamento.setText("");
+        textTotalPedido.setText("");
+        textQtd.setText("");
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0); // limpa todas as linhas da tabela
+    }
+
     /**
      * @param args the command line arguments
      */
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnPagar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField textCpfPagamento;
+    private javax.swing.JTextField textQtd;
     private javax.swing.JTextField textTotalPedido;
     // End of variables declaration//GEN-END:variables
 }

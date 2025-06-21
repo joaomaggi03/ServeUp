@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaRealizarPedido extends javax.swing.JFrame {
 
-     private static TelaRealizarPedido TelaRealizarPedidoUnic;
+    private static TelaRealizarPedido TelaRealizarPedidoUnic;
      
     public static TelaRealizarPedido geraRealizarPed() {
         if (TelaRealizarPedidoUnic == null) {
@@ -213,13 +213,10 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
 
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    sair();        // TODO add your handling code here:
+    sair(); 
+    limparText();
     }//GEN-LAST:event_jButton1ActionPerformed
-    public void sair(){
-            this.dispose();
-        }
-    
-
+  
     private void textCpfPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCpfPedidoActionPerformed
         
     }//GEN-LAST:event_textCpfPedidoActionPerformed
@@ -258,17 +255,14 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
             }
         }
     
-  // Este é o método principal, com toda a lógica
-   // ESTE É O ÚNICO MÉTODO QUE VOCÊ PRECISA PARA O BOTÃO
     public void btnConfirmarPedidoActionPerformed() {                                                  
         
         try {
-            // --- 1. Coleta dos dados da tela ---
+            
             String cpf = textCpfPedido.getText();
             String codigoProdutoStr = textIdPedido.getText(); // Usando o nome da variável do NetBeans
             String quantidadeStr = textQntPedido.getText();
 
-            // --- 2. Validação ---
             if (cpf.trim().isEmpty() || codigoProdutoStr.trim().isEmpty() || quantidadeStr.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos os campos (CPF, Código do Item, Quantidade) são obrigatórios.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -282,9 +276,8 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                 return;
             }
 
-            // --- 3. Busca o produto pelo CÓDIGO ---
             ControladorProduto ctrlProduto = new ControladorProduto();
-            // AQUI ESTÁ A CORREÇÃO IMPORTANTE: Usando o método certo!
+            
             Produto produtoSelecionado = ctrlProduto.buscarPorCodigo(codigoProduto);
 
             if (produtoSelecionado == null) {
@@ -292,9 +285,7 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                 return;
             }
 
-            // --- 4. Busca ou abre uma comanda para o CPF ---
             ControladorComanda ctrlComanda = new ControladorComanda();
-            // AQUI ESTÁ A OUTRA CORREÇÃO IMPORTANTE: Usando o método que aceita CPF
             Comanda comandaAtual = ctrlComanda.buscarOuAbrirComandaPorCpf(cpf);
 
             if (comandaAtual == null) {
@@ -302,27 +293,28 @@ public class TelaRealizarPedido extends javax.swing.JFrame {
                 return;
             }
 
-            // --- 5. Adiciona o item na comanda ---
-            // Passamos o ID INTERNO do produto, que pegamos na busca
             ctrlComanda.adicionarItemNaComanda(comandaAtual.getId(), produtoSelecionado.getId(), quantidade);
-
-            // --- 6. Feedback de sucesso ---
             JOptionPane.showMessageDialog(this, "Item '" + produtoSelecionado.getNome() + "' adicionado à comanda " + comandaAtual.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-            // Limpa os campos para o próximo item
-            textIdPedido.setText("");
-            textQntPedido.setText("");
-
+            limparText();
+            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Código do produto e quantidade devem ser números válidos.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro no sistema: " + e.getMessage(), "Erro Inesperado", JOptionPane.ERROR_MESSAGE);
         }
-    }                                          
-
+    }                                         
  
     
+    public void sair(){
+       this.dispose();
+    }
     
+    public void limparText(){
+        textIdPedido.setText("");
+        textQntPedido.setText("");
+        textCpfPedido.setText("");
+    }
     
     
     

@@ -14,7 +14,7 @@ public class ServeUp {
     
     public static void main(String[] args) {
         
-        new TelaRealizarPedido().setVisible(true);   
+        new TelaInicial().setVisible(true);   
 
     }
 }

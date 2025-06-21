@@ -10,8 +10,8 @@ import java.sql.SQLException;
 
 public class FabricaDeConexoes {
     private static final String URL = "jdbc:postgresql://localhost:5432/ServeUp";
-    private static final String USER = "victor";
-    private static final String SENHA = "2468";
+    private static final String USER = "postgres";
+    private static final String SENHA = "postgres";
 
     public static Connection getConexao() {
         try {
