@@ -9,9 +9,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class FabricaDeConexoes {
-    private static final String URL = "jdbc:postgresql://localhost:5432/ServeUp";
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
-    private static final String SENHA = "postgres";
+    private static final String SENHA = "senha";
 
     public static Connection getConexao() {
         try {
