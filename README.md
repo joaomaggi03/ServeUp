@@ -1,6 +1,6 @@
 # ServeUp 📝
 
-Sistema para gestão de pedidos e controle de comandas. 
+**Sistema para gestão de pedidos e controle de comandas. 
 Projeto desenvolvido para a disciplina Programação Orientada a Objetos 2**.
 
 ---
