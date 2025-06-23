@@ -12,9 +12,6 @@ O sistema ServeUp foi desenvolvido para gerenciar comandas de pedidos em estabel
 ### 📦 Cadastro e Gerenciamento de Produtos
 - Permite o cadastro de produtos (alimentos e bebidas) disponíveis para pedido.
 
-### 🍽️ Controle de Mesas
-- Permite o cadastro e identificação dos números de mesa dos clientes. 
-
 ### 🧾 Gerenciamento de Comandas
 - Criação de uma comanda por mesa.
 - Adição de itens à comanda. 
@@ -25,7 +22,7 @@ O sistema ServeUp foi desenvolvido para gerenciar comandas de pedidos em estabel
 ### 👀 Visualização para Atendentes
 - O atendente pode visualizar todas as comandas abertas no sistema. 
 
-### 👤 Cadastro de Clientes (Opcional)
+### 👤 Cadastro de Clientes 
 - Cadastro de clientes para associar uma comanda específica, quando necessário. 
 
 ### 💡 Interface Amigável
