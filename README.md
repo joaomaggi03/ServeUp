@@ -69,10 +69,10 @@ serveup/
 
 ## 🧪 Tecnologias Utilizadas
 
-- **Frontend:**PREENCHER
+- **Frontend:** PREENCHER
 - **Backend:** PREENCHER
 - **Banco de Dados:** PREENCHER
-- **Ferramentas:**PREENCHER
+- **Ferramentas:** PREENCHER
 
 ---
 
