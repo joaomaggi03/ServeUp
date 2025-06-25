@@ -66,10 +66,10 @@ serveup/
 
 ## 🧪 Tecnologias Utilizadas
 
-- **Frontend:** PREENCHER
-- **Backend:** PREENCHER
-- **Banco de Dados:** PREENCHER
-- **Ferramentas:** PREENCHER
+- **Frontend:** Java Swing (interface gráfica desktop)
+- **Backend:** Java (Programação Orientada a Objetos com padrão MVC)
+- **Banco de Dados:** PostgreSQL (com script SQL e integração via JDBC)
+- **Ferramentas:** NetBeans 25, GitHub, pgAdmin, Astah (diagramas), Terminal Linux (psql)
 
 ---
 
@@ -81,39 +81,87 @@ git clone https://github.com/joaomaggi03/ServeUp
 cd ServeUp/backend
 ```
 
-### 2. Instalar dependências do backend
+### 2. Abrir no NetBeans
 ```bash
-npm install
+1. Abra o NetBeans IDE 25
+2. Vá em File > Open Project
+3. Selecione a pasta ServeUp clonada
 ```
 
-### 3. Criar o arquivo `.env`
+### 3. Configurar o banco de dados (PostgreSQL)
 ```bash
-echo "MONGO_URI=<sua-URI-do-MongoDB>" > .env
+1. Certifique-se de que o PostgreSQL está instalado e em execução
+2. Crie um banco de dados chamado ServeUp
+3. Execute o script SQL para criação das tabelas:
+
+---
+
+DROP TABLE IF EXISTS ItemComanda;
+DROP TABLE IF EXISTS Comanda;
+DROP TABLE IF EXISTS Produto;
+DROP TABLE IF EXISTS Cliente;
+DROP TABLE IF EXISTS Administrador;
+
+CREATE TABLE Administrador (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    usuario VARCHAR(50) UNIQUE NOT NULL,
+    senha VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Cliente (
+    cpf VARCHAR(11) PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE Produto (
+    id SERIAL PRIMARY KEY,
+    codigo_produto INTEGER UNIQUE NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    preco NUMERIC(10, 2) NOT NULL CHECK (preco >= 0)
+);
+
+CREATE TABLE Comanda (
+    id SERIAL PRIMARY KEY,
+    id_cliente VARCHAR(11) REFERENCES Cliente(cpf),
+    data_abertura TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_fechamento TIMESTAMP,
+    valor_total NUMERIC(10, 2) DEFAULT 0.00,
+    status VARCHAR(20) DEFAULT 'ABERTA'
+);
+
+CREATE TABLE ItemComanda (
+    id SERIAL PRIMARY KEY,
+    id_comanda INTEGER NOT NULL REFERENCES Comanda(id),
+    id_produto INTEGER NOT NULL REFERENCES Produto(id),
+    quantidade INTEGER NOT NULL CHECK (quantidade > 0),
+    preco_unitario NUMERIC(10, 2) NOT NULL,
+    subtotal NUMERIC(10, 2) NOT NULL
+);
 ```
+---
 
-> Exemplo de URI:
-> ```
-> MONGO_URI=mongodb+srv://admin:senha@cluster0.mongodb.net/portal?retryWrites=true&w=majority
-> ```
-
-### 4. Criar usuário admin (opcional)
+### 4. Inserir administrador padrão (opcional)
 ```bash
 node createAdmin.js
 ```
 
 ### 5. Rodar o servidor
 ```bash
-node server.js
-```
+INSERT INTO Administrador (nome, usuario, senha) VALUES ('Admin Padrão', 'admin', 'admin');
 
-Servidor rodando em: `http://localhost:3000`
+```
 
 ---
 
 ## ▶️ Executar o Projeto
-1. PREENCHER
-2. PREENCHER
-3. PREENCHER
+1. Abra o NetBeans
+2. Compile o projeto com Shift + F11
+3. Execute o formulário principal com F6
+4. A tela principal será exibida com opções de Cliente e Administrado
+5. Utilize as funcionalidades do sistema: cadastro, pedidos, pagamento, gerenciamento de comandas
 
 **Credenciais padrão:**
 ```
@@ -149,20 +197,6 @@ Senha: PREENCHER
 | RNF07         | O código deve ser modular e bem documentado para facilitar a manutenção e futuras melhorias.                                                  | Média  |
 
 --- 
-
-## 🔒 Rotas Backend (API REST)
-
-| Método | Rota                    | Função                       |
-|--------|-------------------------|------------------------------|
-| POST   | `PREENCHER`         | PREENCHER             |
-| GET    | `PREENCHER`         | PREENCHER               |
-| POST   | `PREENCHER`     | PREENCHER         |
-| GET    | `PREENCHER`     | PREENCHER           |
-| POST   | `PREENCHER`       | PREENCHER           |
-| GET    | `PREENCHER`       | PREENCHER             |
-| POST   | `PREENCHER`           | PREENCHER       |
-
----
 
 ## 📄 Licença
 
