@@ -78,7 +78,6 @@ serveup/
 ### 1. Clonar o repositório
 ```bash
 git clone https://github.com/joaomaggi03/ServeUp
-cd ServeUp/backend
 ```
 
 ### 2. Abrir no NetBeans
