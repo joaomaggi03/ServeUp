@@ -145,7 +145,8 @@ CREATE TABLE ItemComanda (
 
 ### 4. Inserir administrador padrão (opcional)
 ```bash
-node createAdmin.js
+INSERT INTO Administrador (nome, usuario, senha) VALUES ('Admin Padrão', 'admin', 'admin');
+
 ```
 
 ### 5. Rodar o servidor
